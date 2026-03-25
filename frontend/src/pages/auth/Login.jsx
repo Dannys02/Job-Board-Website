@@ -10,7 +10,7 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth(); // fungsi login dari AuthContext
+  const login = useAuth(); // fungsi login dari AuthContext
   const navigate  = useNavigate(); // untuk redirect setelah login
 
   async function handleSubmit(e) {
