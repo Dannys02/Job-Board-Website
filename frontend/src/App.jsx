@@ -1,21 +1,56 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { Routes, Route } from 'react-router-dom';
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './routes/PrivateRoute';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Home from './pages/Home';
+import JobDetail from './pages/JobDetail';
+
+// Placeholder pages — kita isi nanti satu per satu
+const SeekerDashboard = () => <div>Seeker Dashboard</div>;
+const EmployerDashboard = () => <div>Employer Dashboard</div>;
+const AdminDashboard = () => <div>Admin Dashboard</div>;
 
 function App() {
-    const [count, setCount] = useState(0);
+  return (
+    // BrowserRouter = aktifkan routing di seluruh app
+    // AuthProvider = semua halaman bisa akses data user global
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
 
-    return (
-        <>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
-        </>
-    );
+          {/* Public routes — siapa saja bisa akses */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          <Route path="/jobs/:id" element={<JobDetail />} />
+
+          {/* Seeker routes — hanya role seeker */}
+          <Route path="/seeker/dashboard" element={
+            <PrivateRoute role="seeker">
+              <SeekerDashboard />
+            </PrivateRoute>
+          } />
+
+          {/* Employer routes — hanya role employer */}
+          <Route path="/employer/dashboard" element={
+            <PrivateRoute role="employer">
+              <EmployerDashboard />
+            </PrivateRoute>
+          } />
+
+          {/* Admin routes — hanya role admin */}
+          <Route path="/admin/dashboard" element={
+            <PrivateRoute role="admin">
+              <AdminDashboard />
+            </PrivateRoute>
+          } />
+
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
