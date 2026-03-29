@@ -6,8 +6,9 @@ import Register from './pages/auth/Register';
 import Home from './pages/Home';
 import JobDetail from './pages/JobDetail';
 import SeekerDashboard from './pages/seeker/Dashboard';
+import EmployerDashboard from './pages/employer/Dashboard';
+import CreateJob from './pages/employer/CreateJob';
 
-const EmployerDashboard = () => <div>Employer Dashboard</div>;
 const AdminDashboard = () => <div>Admin Dashboard</div>;
 
 function App() {
@@ -36,6 +37,12 @@ function App() {
           <Route path="/employer/dashboard" element={
             <PrivateRoute role="employer">
               <EmployerDashboard />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/employer/jobs/create" element={
+            <PrivateRoute role="employer">
+              <CreateJob />
             </PrivateRoute>
           } />
 
